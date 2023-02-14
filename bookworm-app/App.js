@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { BottomNavigation } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { HomePage } from "./app/Home.js";
 import { BooksPage } from "./app/Books.js";
 import { HistoryPage } from "./app/History.js";
-import { NotificationPage } from "./app/Notification.js";
+import { AddBooksPage } from "./app/AddBooks";
 
 const MyComponent = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'music', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'heart-outline'},
-    { key: 'addbox', title: 'AddBook', focusedIcon: 'library-add' },
-    { key: 'albums', title: 'Books', focusedIcon: 'book' },
-    { key: 'recents', title: 'History', focusedIcon: 'history' }
+    { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
+    { key: 'addBooks', title: 'AddBook', focusedIcon: 'note-plus' },
+    { key: 'books', title: 'Books', focusedIcon: 'animation-outline' },
+    { key: 'history', title: 'History', focusedIcon: 'history' }
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    music: HomePage,
-    albums: BooksPage,
-    recents: HistoryPage,
-    notifications: NotificationPage,
+    home: HomePage,
+    books: BooksPage,
+    history: HistoryPage,
+    addBooks: AddBooksPage,
   });
 
   return (

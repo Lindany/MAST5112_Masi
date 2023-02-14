@@ -6,7 +6,30 @@ import SelectDropdown from 'react-native-select-dropdown'
 export const HomePage = () =>  {
 const [text, onChangeText] = React.useState('Enter Book Title');
 const [number, onChangeNumber] = React.useState('');
-const countries = ["Egypt", "Canada", "Australia", "Ireland"]
+const countries = [
+"Adventure",
+"Classics",
+"Crime",
+"Fairy tales, fables, and folk tales",
+"Fantasy",
+"Historical",
+"Horror",
+"Humour and satire",
+"Literary fiction",
+"Mystery",
+"Poetry",
+"Plays",
+"Romance",
+"Science fiction",
+"Short stories",
+"Thrillers",
+"War",
+"Women’s fiction",
+"Young adult",
+"Autobiography and memoir",
+"Biography",
+"Essays"
+]
 
 return (
 <SafeAreaView style={styles.container}>

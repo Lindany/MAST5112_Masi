@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 
 
