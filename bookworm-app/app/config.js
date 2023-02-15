@@ -24,5 +24,52 @@ const app = initializeApp(firebaseConfig);;
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 const db = getFirestore(app);
- 
- export {app, db, collection, addDoc, getFirestore, getDocs };
+
+const ReadBooks = async (db) => {
+  // MARK: Reading Doc
+  // You can read what ever document by changing the collection and document path here
+  const bookCol = collection(db, 'books');
+  const bookSnapshot = await getDocs(bookCol);
+  const bookList = bookSnapshot.docs.map(doc => doc.data());
+  console.log("booklist: ", bookList)
+  return bookList;
+}
+
+const bookList = ReadBooks(db);
+
+const UpdateBook = (value, merge) => {
+  // MARK: Updating Doc
+  const myDoc = doc(db, "books")
+
+  // If you set merge true then it will merge with existing doc otherwise it will be a fresh one
+  setDoc(myDoc, value, { merge: merge })
+    // Handling Promises
+    .then(() => {
+      // MARK: Success
+      alert("Updated Successfully!")
+      setText("")
+    })
+    .catch((error) => {
+      // MARK: Failure
+      alert(error.message)
+    })
+}
+
+const DeleteBook = () => {
+  // MARK: Deleting Doc
+  const myDoc = doc(db, "books")
+
+  deleteDoc(myDoc)
+    // Handling Promises
+    .then(() => {
+      // MARK: Success
+      alert("Deleted Successfully!")
+    })
+    .catch((error) => {
+      // MARK: Failure
+      alert(error.message)
+    })
+}
+
+
+export { app, db, collection, addDoc, getFirestore, getDocs, bookList };
