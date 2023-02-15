@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -20,7 +20,9 @@ const firebaseConfig = {
   measurementId: "G-9ZB9TVP4FD"
 };
 
-export const app = initializeApp(firebaseConfig);;
+const app = initializeApp(firebaseConfig);;
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
-export const db = getFirestore(app);
+const db = getFirestore(app);
+ 
+ export {app, db, collection, addDoc, getFirestore, getDocs };

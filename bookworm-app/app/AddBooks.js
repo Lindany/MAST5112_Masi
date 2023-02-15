@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, SafeAreaView } from 'react-native';
-import { deleteDoc, doc, getDoc, setDoc, collection } from 'firebase/firestore/lite';
 // Using DB Reference
-import { db } from './config.js'
+import  { db, collection, addDoc,query, getDocs }from './config.js'
 import { Firestore } from '@firebase/firestore';
 
 export const AddBooksPage = () => {
@@ -17,21 +16,23 @@ const Create = async() => {
   // MARK: Creating New Doc in Firebase
   // Before that enable Firebase in Firebase Console
   // Your Document Goes Here
-  const newCityRef = doc(collection(db, "cities"));
+  //const newCityRef = doc(collection(db, "cities"));
 
   const docData = {
-    "title": "Family on a Mission",
-    "arthor": "Mike Breen",
-    "genre": "Religious",
-    "pages": "200"
+    title: "Family on a Mission",
+    arthor: "Mike Breen",
+    genre: "Religious",
+    pages: "200"
   }
   console.log("Aftert myDoc", docData)
 
 
   // Add a new document with a generated id.
-const docRef = await addDoc(collection(db, "cities"), {
-  name: "Tokyo",
-  country: "Japan"
+const docRef = await addDoc(collection(db, "books"), {
+  title: "Family on a Mission",
+  arthor: "Mike Breen",
+  genre: "Religious",
+  pages: "200"
 });
 console.log("Document written with ID: ", docRef.id);
 
@@ -49,27 +50,13 @@ console.log("Document written with ID: ", docRef.id);
 //     })
 }
 
-const Read = () => {
+const Read = async() => {
   // MARK: Reading Doc
   // You can read what ever document by changing the collection and document path here
-  const myDoc = doc(db, "MyCollection", "MyDocument")
-
-  getDoc(myDoc)
-    // Handling Promises
-    .then((snapshot) => {
-      // MARK: Success
-      if (snapshot.exists) {
-        setUserDoc(snapshot.data())
-      }
-      else {
-        alert("No Doc Found")
-      }
-    })
-    .catch((error) => {
-      // MARK: Failure
-      alert(error.message)
-    })
-
+  const querySnapshots = await getDocs(collection(db, "books"))
+  querySnapshots.forEach((doc)=>{
+    console.log("Docs",doc.data().title)
+  })
 }
 
 const Update = (value, merge) => {
@@ -115,10 +102,10 @@ return (
     </Text>
     <Button title='Add New Book' onPress={Create}></Button>
       <Button title='Read Books' onPress={Read}></Button>
-      {
+      {/* {
         userDoc != null &&
-        <Text>Bio: {userDoc.bio}</Text>
-      }
+        <Text>Bio: {userDoc.title}</Text>
+      } */}
       <TextInput style={{
         width: '95%',
         fontSize: 18,
