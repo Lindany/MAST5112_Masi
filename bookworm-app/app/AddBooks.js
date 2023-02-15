@@ -1,37 +1,53 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, SafeAreaView } from 'react-native';
 // Using DB Reference
-import { db, collection, addDoc, query, getDocs } from './config.js'
+import SelectDropdown from 'react-native-select-dropdown'
+import { db, collection, addDoc, getDocs } from './config.js'
 
 export const AddBooksPage = () => {
+  const [userTitle, onChangeText] = useState('');
+  const [userAurthor, onChangeAurthor] = useState('');
+  const [noPages, onChangePages] = useState('');
+  const [genre, setGenre] = useState('');
+
+  const countries = [
+    "Adventure",
+    "Classics",
+    "Crime",
+    "Fairy tales, fables, and folk tales",
+    "Fantasy",
+    "Historical",
+    "Horror",
+    "Humour and satire",
+    "Literary fiction",
+    "Mystery",
+    "Poetry",
+    "Plays",
+    "Romance",
+    "Religion",
+    "Science fiction",
+    "Short stories",
+    "Thrillers",
+    "War",
+    "Women’s fiction",
+    "Young adult",
+    "Autobiography and memoir",
+    "Biography",
+    "Essays"
+  ]
 
   // Storing User Data
-  const [userDoc, setUserDoc] = useState(null)
   // Update Text
-  const [text, setText] = useState("")
 
   // MARK: CRUD Functions
   const Create = async () => {
-    // MARK: Creating New Doc in Firebase
-    // Before that enable Firebase in Firebase Console
-    // Your Document Goes Here
-    //const newCityRef = doc(collection(db, "cities"));
-
-    const docData = {
-      title: "Family on a Mission",
-      arthor: "Mike Breen",
-      genre: "Religious",
-      pages: "200"
-    }
-    console.log("Aftert myDoc", docData)
-
 
     // Add a new document with a generated id.
     const docRef = await addDoc(collection(db, "books"), {
-      title: "Family on a Mission",
-      arthor: "Mike Breen",
-      genre: "Religious",
-      pages: "200"
+      title: userTitle,
+      arthor: userAurthor,
+      genre: genre,
+      pages: noPages
     });
     console.log("Document written with ID: ", docRef.id);
   }
@@ -44,44 +60,68 @@ export const AddBooksPage = () => {
     })
   }
 
- 
+
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{ fontSize: 20, textAlign: "center", marginTop: 1, fontWeight: 'bold', textDecorationLine: 'underline' }}>
+        Add a book
+      </Text>
       <View >
-        <Text style={{ fontSize: 20 }}>
-          Add Books
-        </Text>
-        <Button title='Add New Book' onPress={Create}></Button>
-        <Button title='Read Books' onPress={Read}></Button>
-        {/* {
-        userDoc != null &&
-        <Text>Bio: {userDoc.title}</Text>
-      } */}
-        <TextInput style={{
-          width: '95%',
-          fontSize: 18,
-          padding: 12,
-          borderColor: 'gray',
-          borderWidth: 0.2,
-          borderRadius: 10,
-          marginVertical: 20
-        }} placeholder='Type Here' onChangeText={(text) => { setText(text) }} value={text}></TextInput>
+        <Text style={styles.textDescription}>Title:</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={userTitle}
+          placeholder="Enter book title"
 
-        <Button title='Update Book' onPress={() => {
-          Update({
-            "bio": text
-          }, true)
-        }} disabled={text == ""}></Button>
-        <Button title='Delete Book' onPress={Delete}></Button>
+        />
+        <Text style={styles.textDescription}>Aurthor:</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeAurthor}
+          value={userAurthor}
+          placeholder="Enter aurthor"
+        />
+        <Text  style={styles.textDescription}>Genre:</Text>
+        <SelectDropdown
+          data={countries}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            setGenre(selectedItem);
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item
+          }} />
+        
+        <Text style={styles.textDescription}>Pages:</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePages}
+          value={noPages}
+          placeholder="Number of page"
+          keyboardType="numeric"
+        />
       </View>
+      <Button title='Add New Book' onPress={Create}></Button>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center', //Centered horizontally
-    alignItems: 'center', //Centered vertically
+    justifyContent: 'space-evenly', //Centered horizontally
+    alignItems: 'stretch', //Centered vertically
+    padding: 30,
     flex: 1
+  },
+  textDescription:{
+    color: 'blue'
   }
 });

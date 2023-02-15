@@ -4,7 +4,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 
 export const HomePage = () => {
-  const [text, onChangeText] = React.useState('Enter Book Title');
+  const [text, onChangeText] = React.useState('');
   const [number, onChangeNumber] = React.useState('');
   const countries = [
     "Adventure",

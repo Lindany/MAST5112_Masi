@@ -7,7 +7,6 @@ import {
   Text,
   FlatList,
   SafeAreaView,
-  ScrollView,
 } from "react-native";
 import {  bookList } from "./config.js";
 
@@ -37,7 +36,7 @@ export class BooksPage extends React.Component {
       <View>
         {bookList["_z"].map((book) => {
           return (
-            <View>
+            <View key={book.title}>
               <Text style={styles.item}>{book?.title}</Text>
               <Text style={styles.item}>{book?.arthor}</Text>
               <Text style={styles.item}>{book?.genre}</Text>
@@ -54,22 +53,22 @@ export class BooksPage extends React.Component {
       <SafeAreaView style={styles.container}>
         <FlatList
       data={bookList["_z"]}
-      renderItem={({ item }) => <View>
-      <Text style={styles.item}>{item?.title}</Text>
-      <Text style={styles.item}>{item?.arthor}</Text>
-      <Text style={styles.item}>{item?.genre}</Text>
-      <Text style={styles.item}>{item?.pages}</Text>
+      renderItem={({ item }) => <View key={item.title}>
+      <Text style={styles.item}>Title: {item?.title}</Text>
+      <Text style={styles.item}>Aurthor: {item?.arthor}</Text>
+      <Text style={styles.item}>Genre: {item?.genre}</Text>
+      <Text style={styles.item}>No.pages: {item?.pages}</Text>
     </View>}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={this.myItemSeparator}
       ListEmptyComponent={this.myListEmpty}
       ListHeaderComponent={() => (
-        <Text style={{ fontSize: 30, textAlign: "center",marginTop:20,fontWeight:'bold',textDecorationLine: 'underline' }}>
+        <Text style={{ fontSize: 20, textAlign: "center",marginTop:20,fontWeight:'bold',textDecorationLine: 'underline' }}>
           List of Books
         </Text>
       )}
       ListFooterComponent={() => (
-        <Text style={{ fontSize: 30, textAlign: "center",marginBottom:20,fontWeight:'bold' }}>Thank You</Text>
+        <Text style={{ fontSize: 15, textAlign: "center",marginBottom:10,fontWeight:'bold' }}>The End. Thank You</Text>
       )}
     />
       </SafeAreaView>
