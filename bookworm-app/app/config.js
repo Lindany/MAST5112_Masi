@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -35,7 +35,19 @@ const ReadBooks = async (db) => {
   return bookList;
 }
 
+const lastHistory = async (db, noList) => {
+  // MARK: Reading Doc
+  // You can read what ever document by changing the collection and document path here
+  const bookCol = collection(db, 'books');
+  const bookSnapshot = await getDocs(bookCol);
+  const bookList = bookSnapshot.docs.filter((item, idx) => idx < noList).map(doc => doc.data());
+  console.log("booklist: ", bookList)
+  return bookList;
+}
+
 const bookList = ReadBooks(db);
+const lastHistoryList = lastHistory(db,1);
+const threeHistoryList = lastHistory(db,3);
 
 const UpdateBook = (value, merge) => {
   // MARK: Updating Doc
@@ -72,4 +84,4 @@ const DeleteBook = () => {
 }
 
 
-export { app, db, collection, addDoc, getFirestore, getDocs, bookList };
+export { app, db, collection, addDoc, getFirestore, getDocs, bookList, ReadBooks, query, lastHistoryList, threeHistoryList };

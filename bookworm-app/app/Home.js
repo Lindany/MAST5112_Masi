@@ -1,80 +1,69 @@
-import React from 'react';
-import { StyleSheet, TextInput, View, Text, SafeAreaView } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown'
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import { bookList, lastHistoryList } from "./config.js";
 
 
 export const HomePage = () => {
-  const [text, onChangeText] = React.useState('');
-  const [number, onChangeNumber] = React.useState('');
-  const countries = [
-    "Adventure",
-    "Classics",
-    "Crime",
-    "Fairy tales, fables, and folk tales",
-    "Fantasy",
-    "Historical",
-    "Horror",
-    "Humour and satire",
-    "Literary fiction",
-    "Mystery",
-    "Poetry",
-    "Plays",
-    "Romance",
-    "Religion",
-    "Science fiction",
-    "Short stories",
-    "Thrillers",
-    "War",
-    "Women’s fiction",
-    "Young adult",
-    "Autobiography and memoir",
-    "Biography",
-    "Essays"
-  ]
+  const myItemSeparator = () => {
+    return (
+      <View
+        style={{ height: 2, backgroundColor: "gray", marginHorizontal: 10 }}
+      />
+    );
+  };
+
+  const myListEmpty = () => {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.item}>No data found</Text>
+      </View>
+    );
+  }
+
+  const getTotalPages =(arrayBook)=>{
+      var totalPages = 0;
+      arrayBook?.forEach(book => {
+        totalPages = parseInt(totalPages) +  parseInt(book.pages)
+      });
+      return totalPages
+  }
+
+ var arrayBook = bookList["_z"];
+ var noBooks =arrayBook.length 
+ var totalPages = getTotalPages(arrayBook);
+ console.log("\n\n\n\nNoBooks ====>: ", noBooks, "Total Pages: ", totalPages)
+  const averagePages = totalPages / noBooks;
 
   return (
     <SafeAreaView style={styles.container}>
-      <View >
-        <Text style={{ fontSize: 20 }}>
-          Add new book
-        </Text>
-
-      </View>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Enter book title"
-
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="Enter aurthor"
-      />
-      <SelectDropdown
-        data={countries}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index)
-        }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem
-        }}
-        rowTextForSelection={(item, index) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
-          return item
-        }} />
-
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        // value={number}
-        placeholder="Number of page"
-        keyboardType="numeric"
+      <FlatList
+        data={lastHistoryList["_z"]}
+        renderItem={({ item, index }) => 
+        <View key={item.title}>
+          <Text style={styles.item}>Title: {item?.title}</Text>
+          <Text style={styles.item}>Aurthor: {item?.arthor}</Text>
+          <Text style={styles.item}>Genre: {item?.genre}</Text>
+          <Text style={styles.item}>No.pages: {item?.pages}</Text>
+          <Text style={styles.item}>Total Pages read: {totalPages}</Text>
+        <Text style={styles.item}>Average pages: {averagePages}</Text> 
+        </View>}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={myItemSeparator}
+        ListEmptyComponent={myListEmpty}
+        ListHeaderComponent={() => (
+          <Text style={{ fontSize: 30, textAlign: "center", marginTop: 25,padding: 30, fontWeight: 'bold', textDecorationLine: 'underline' }}>
+            Welcome Home
+          </Text>
+        )}
+        ListFooterComponent={() => (
+          <Text style={{ fontSize: 15, textAlign: "center", marginBottom: 1, fontWeight: 'bold' }}>Bookwarm by Masi</Text>
+        )}
       />
     </SafeAreaView>
   )
@@ -82,8 +71,15 @@ export const HomePage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center', //Centered horizontally
-    alignItems: 'center', //Centered vertically
-    flex: 1
-  }
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
+    padding: 20,
+    padding: 25,
+    flex: 1,
+  },
+  item: {
+    padding: 5,
+    fontSize: 15,
+    marginTop: 1,
+  },
 })

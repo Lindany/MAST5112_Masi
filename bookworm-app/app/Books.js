@@ -8,13 +8,13 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import {  bookList } from "./config.js";
+import {  bookList, ReadBooks, lastHistoryList } from "./config.js";
 
 export class BooksPage extends React.Component {
   myItemSeparator = () => {
     return (
       <View
-        style={{ height: 1, backgroundColor: "gray", marginHorizontal: 10 }}
+        style={{ height: 1, backgroundColor: "white", padding: 20, marginHorizontal: 10 }}
       />
     );
   };
@@ -29,23 +29,7 @@ export class BooksPage extends React.Component {
 
   shouldComponentUpdate() {
     render();
-  }
-
-  displayList(bookList) {
-    return (
-      <View>
-        {bookList["_z"].map((book) => {
-          return (
-            <View key={book.title}>
-              <Text style={styles.item}>{book?.title}</Text>
-              <Text style={styles.item}>{book?.arthor}</Text>
-              <Text style={styles.item}>{book?.genre}</Text>
-              <Text style={styles.item}>{book?.pages}</Text>
-            </View>
-          );
-        })}
-      </View>
-    );
+    ReadBooks(db);
   }
 
   render() {
@@ -63,12 +47,12 @@ export class BooksPage extends React.Component {
       ItemSeparatorComponent={this.myItemSeparator}
       ListEmptyComponent={this.myListEmpty}
       ListHeaderComponent={() => (
-        <Text style={{ fontSize: 20, textAlign: "center",marginTop:20,fontWeight:'bold',textDecorationLine: 'underline' }}>
-          List of Books
+        <Text style={{ fontSize: 20, textAlign: "center",marginTop:20, padding: 10, fontWeight:'bold',textDecorationLine: 'underline' }}>
+          List of Genre
         </Text>
       )}
       ListFooterComponent={() => (
-        <Text style={{ fontSize: 15, textAlign: "center",marginBottom:10,fontWeight:'bold' }}>The End. Thank You</Text>
+        <Text style={{ fontSize: 15, textAlign: "center",marginBottom:10, fontWeight:'bold' }}></Text>
       )}
     />
       </SafeAreaView>

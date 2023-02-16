@@ -12,7 +12,7 @@ const MyComponent = () => {
   const [routes] = React.useState([
     { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
     { key: 'addBooks', title: 'AddBook', focusedIcon: 'note-plus' },
-    { key: 'books', title: 'Books', focusedIcon: 'animation-outline' },
+    { key: 'books', title: 'Genre', focusedIcon: 'animation-outline' },
     { key: 'history', title: 'History', focusedIcon: 'history' }
   ]);
 
