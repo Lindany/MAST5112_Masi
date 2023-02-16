@@ -39,8 +39,8 @@ const lastHistory = async (db, noList) => {
   // MARK: Reading Doc
   // You can read what ever document by changing the collection and document path here
   const bookCol = collection(db, 'books');
-  const bookSnapshot = await getDocs(bookCol);
-  const bookList = bookSnapshot.docs.filter((item, idx) => idx < noList).map(doc => doc.data());
+  const bookSnapshot = await getDocs( query(bookCol, orderBy("id", "desc"), limit(noList)));
+  const bookList = bookSnapshot.docs.map(doc => doc.data());
   console.log("booklist: ", bookList)
   return bookList;
 }

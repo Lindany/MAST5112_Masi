@@ -8,7 +8,7 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import {  bookList, ReadBooks, lastHistoryList } from "./config.js";
+import {  bookList, ReadBooks } from "./config.js";
 
 export class BooksPage extends React.Component {
   myItemSeparator = () => {
@@ -38,8 +38,7 @@ export class BooksPage extends React.Component {
       }
     })
     return count;
-}
-
+  }
 
   shouldComponentUpdate() {
     render();
@@ -50,11 +49,12 @@ export class BooksPage extends React.Component {
     var arrayBook = bookList["_z"];
     const uniqueList = this.getUniqueGenres(arrayBook);
     console.log("\n\n\n\nUniqueness: ",this.getUniqueGenres(arrayBook) )
+    var finalArray = [...new Set(arrayBook)]
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-      data={arrayBook}
-      renderItem={({ item }) => <View key={item.index}>
+      data={finalArray}
+      renderItem={({ item }) => <View key={item.id}>
       <Text style={styles.item}>Genre: {item.genre}</Text>
       <Text style={styles.item}>Count: {uniqueList[item.genre]}</Text>
     </View>}

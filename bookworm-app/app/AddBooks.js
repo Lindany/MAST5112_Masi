@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, SafeAreaView } from 'react-native';
 // Using DB Reference
 import SelectDropdown from 'react-native-select-dropdown'
-import { db, collection, addDoc, getDocs } from './config.js'
+import { db, collection, addDoc, getDocs, bookList } from './config.js'
 
 export const AddBooksPage = () => {
   const [userTitle, onChangeText] = useState('');
   const [userAurthor, onChangeAurthor] = useState('');
   const [noPages, onChangePages] = useState('');
   const [genre, setGenre] = useState('');
+  var arrayBook = bookList["_z"];
+  var noBooks =arrayBook.length 
 
   const countries = [
     "Adventure",
@@ -47,7 +49,8 @@ export const AddBooksPage = () => {
       title: userTitle,
       arthor: userAurthor,
       genre: genre,
-      pages: noPages
+      pages: noPages, 
+      id: parseInt(noBooks) + 1
     });
     console.log("Document written with ID: ", docRef.id);
   }

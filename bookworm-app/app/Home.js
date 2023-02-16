@@ -37,21 +37,22 @@ export const HomePage = () => {
  var arrayBook = bookList["_z"];
  var noBooks =arrayBook.length 
  var totalPages = getTotalPages(arrayBook);
- console.log("\n\n\n\nNoBooks ====>: ", noBooks, "Total Pages: ", totalPages)
-  const averagePages = totalPages / noBooks;
+ const averagePages = totalPages / noBooks;
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={lastHistoryList["_z"]}
-        renderItem={({ item, index }) => 
-        <View key={item.title}>
+        renderItem={({ item }) => 
+        <View key={item.id}>
           <Text style={styles.item}>Title: {item?.title}</Text>
           <Text style={styles.item}>Aurthor: {item?.arthor}</Text>
           <Text style={styles.item}>Genre: {item?.genre}</Text>
           <Text style={styles.item}>No.pages: {item?.pages}</Text>
           <Text style={styles.item}>Total Pages read: {totalPages}</Text>
         <Text style={styles.item}>Average pages: {averagePages}</Text> 
+        <Text style={styles.space}></Text> 
+
         </View>}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={myItemSeparator}
@@ -82,4 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 1,
   },
+  space:{
+    padding:140
+  }
 })
