@@ -27,21 +27,36 @@ export class BooksPage extends React.Component {
     );
   }
 
+  getUniqueGenres = (myArray) => {
+    const count = {};
+
+    myArray.forEach(element => {
+      if (count[element.genre]) {
+        count[element.genre] += 1;
+      } else {
+        count[element.genre] = 1;
+      }
+    })
+    return count;
+}
+
+
   shouldComponentUpdate() {
     render();
     ReadBooks(db);
   }
 
   render() {
+    var arrayBook = bookList["_z"];
+    const uniqueList = this.getUniqueGenres(arrayBook);
+    console.log("\n\n\n\nUniqueness: ",this.getUniqueGenres(arrayBook) )
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-      data={bookList["_z"]}
-      renderItem={({ item }) => <View key={item.title}>
-      <Text style={styles.item}>Title: {item?.title}</Text>
-      <Text style={styles.item}>Aurthor: {item?.arthor}</Text>
-      <Text style={styles.item}>Genre: {item?.genre}</Text>
-      <Text style={styles.item}>No.pages: {item?.pages}</Text>
+      data={arrayBook}
+      renderItem={({ item }) => <View key={item.index}>
+      <Text style={styles.item}>Genre: {item.genre}</Text>
+      <Text style={styles.item}>Count: {uniqueList[item.genre]}</Text>
     </View>}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={this.myItemSeparator}
